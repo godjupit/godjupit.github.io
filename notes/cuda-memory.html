@@ -5,32 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="整理 CUDA 中线程层次、延迟隐藏、全局内存合并访问、共享内存 bank conflict 与同步的基础概念。">
-  <meta name="author" content="Wang Qibo">
-  <meta property="og:title" content="CUDA 线程组织与内存访问 · Wang Qibo">
+  <meta name="author" content="Godjupit">
+  <meta property="og:title" content="CUDA 线程组织与内存访问 · Godjupit">
   <meta property="og:description" content="从线程束、延迟隐藏和共享内存访问理解 CUDA 并行执行。">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://godjupit.github.io/notes/cuda-memory.html">
   <link rel="canonical" href="https://godjupit.github.io/notes/cuda-memory.html">
-  <title>CUDA 线程组织与内存访问 · Wang Qibo</title>
+  <title>CUDA 线程组织与内存访问 · Godjupit</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=(t==="light"||t==="dark")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch{document.documentElement.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}</script>
-  <link rel="stylesheet" href="../assets/styles.css?v=20261010-notes">
-  <script src="../assets/main.js?v=20261010-notes" defer></script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261010-articles">
+  <script src="../assets/main.js?v=20261010-articles" defer></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main">跳转到正文</a>
   <header class="site-header"><div class="container header-inner">
-    <a class="site-name" href="../index.html">Wang Qibo</a>
-    <nav aria-label="主导航"><a href="../index.html#notes">笔记</a><a href="../index.html#about">关于</a><a class="nav-contact" href="../index.html#contact">联系</a>
+    <a class="site-name" href="../index.html">Godjupit</a>
+    <nav aria-label="主导航"><a href="../index.html#articles">文章</a>
       <button class="theme-toggle" type="button" aria-label="切换至深色模式" title="切换明暗主题"><svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg><svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
     </nav>
   </div></header>
   <main id="main" class="container project-detail">
-    <a class="inline-link back-link" href="../index.html#notes">← 返回笔记列表</a>
+    <a class="inline-link back-link" href="../index.html#articles">← 返回文章列表</a>
     <p class="detail-eyebrow">CUDA · GPU 基础</p>
     <h1 class="detail-title">线程组织与内存访问</h1>
     <p class="detail-summary">理解 CUDA 程序如何组织线程、隐藏访存延迟，以及共享内存访问为何会发生冲突。</p>
-    <div class="detail-tags" aria-label="笔记主题"><span>Warp</span><span>Global Memory</span><span>Shared Memory</span></div>
+    <div class="detail-tags" aria-label="文章主题"><span>Warp</span><span>Global Memory</span><span>Shared Memory</span></div>
     <section class="detail-section"><h2>线程层次：Thread、Block 与 Grid</h2>
       <p>CUDA 程序以线程为基本执行单元。线程组成线程块（thread block），线程块再组成网格（grid）；一次 kernel 启动对应一个 grid。硬件以线程束（warp）为单位调度执行，常见 NVIDIA GPU 的 warp 包含 32 个线程。</p>
       <p>线程块会被分配到某个流式多处理器（SM）上执行。一个 SM 能同时驻留多少线程块，取决于线程数、寄存器和共享内存等资源。线程块一旦开始执行，就由该 SM 完成；不同线程块的执行先后顺序不应由程序假定。</p>
@@ -58,6 +58,6 @@ value = sdata[threadIdx.x * 32];</code></pre>
     </section>
     <p class="detail-eyebrow">持续整理中 · 后续按主题逐篇补充</p>
   </main>
-  <footer class="site-footer"><div class="container footer-inner"><p>© <span id="year">2026</span> Wang Qibo</p><nav aria-label="页脚导航"><a href="https://github.com/godjupit" target="_blank" rel="noopener noreferrer">GitHub</a><a href="#top">回到顶部 ↑</a></nav></div></footer>
+
 </body>
 </html>
