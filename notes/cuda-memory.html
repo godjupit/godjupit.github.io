@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="整理 CUDA 中线程层次、延迟隐藏、全局内存合并访问、共享内存 bank conflict 与同步的基础概念。">
+  <meta name="author" content="Wang Qibo">
+  <meta property="og:title" content="CUDA 线程组织与内存访问 · Wang Qibo">
+  <meta property="og:description" content="从线程束、延迟隐藏和共享内存访问理解 CUDA 并行执行。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://godjupit.github.io/notes/cuda-memory.html">
+  <link rel="canonical" href="https://godjupit.github.io/notes/cuda-memory.html">
+  <title>CUDA 线程组织与内存访问 · Wang Qibo</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=(t==="light"||t==="dark")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch{document.documentElement.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?t:"dark"}</script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261010-notes">
+  <script src="../assets/main.js?v=20261010-notes" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳转到正文</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="site-name" href="../index.html">Wang Qibo</a>
+    <nav aria-label="主导航"><a href="../index.html#notes">笔记</a><a href="../index.html#about">关于</a><a class="nav-contact" href="../index.html#contact">联系</a>
+      <button class="theme-toggle" type="button" aria-label="切换至深色模式" title="切换明暗主题"><svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg><svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+    </nav>
+  </div></header>
+  <main id="main" class="container project-detail">
+    <a class="inline-link back-link" href="../index.html#notes">← 返回笔记列表</a>
+    <p class="detail-eyebrow">CUDA · GPU 基础</p>
+    <h1 class="detail-title">线程组织与内存访问</h1>
+    <p class="detail-summary">理解 CUDA 程序如何组织线程、隐藏访存延迟，以及共享内存访问为何会发生冲突。</p>
+    <div class="detail-tags" aria-label="笔记主题"><span>Warp</span><span>Global Memory</span><span>Shared Memory</span></div>
+    <section class="detail-section"><h2>线程层次：Thread、Block 与 Grid</h2>
+      <p>CUDA 程序以线程为基本执行单元。线程组成线程块（thread block），线程块再组成网格（grid）；一次 kernel 启动对应一个 grid。硬件以线程束（warp）为单位调度执行，常见 NVIDIA GPU 的 warp 包含 32 个线程。</p>
+      <p>线程块会被分配到某个流式多处理器（SM）上执行。一个 SM 能同时驻留多少线程块，取决于线程数、寄存器和共享内存等资源。线程块一旦开始执行，就由该 SM 完成；不同线程块的执行先后顺序不应由程序假定。</p>
+    </section>
+    <section class="detail-section"><h2>用并发隐藏访存延迟</h2>
+      <p>访问显存的延迟通常远高于简单算术运算。某个 warp 因数据尚未就绪而停顿时，调度器可以切换到其他就绪的 warp 执行，让计算与等待交叠。这称为延迟隐藏（latency hiding）。</p>
+      <p>kernel 需要足够的并行工作供硬件调度，但线程数并非越多越好：寄存器、共享内存等资源会限制驻留数量，最终应结合目标 GPU 和实际测量调整。</p>
+    </section>
+    <section class="detail-section"><h2>全局内存与合并访问</h2>
+      <p>全局内存访问通常以硬件事务或内存段为单位完成，而不是为每个字节单独发起传输。同一个 warp 中的线程若访问相邻、对齐的数据，硬件往往能用较少的事务满足请求；地址分散时，可能需要更多事务，降低有效带宽。</p>
+      <p>具体事务大小和行为取决于 GPU 架构、数据类型与访问模式。分析时应关注线程地址如何分布，并用性能分析工具验证，而不要把某个固定字节数当成所有设备都适用的规则。</p>
+    </section>
+    <section class="detail-section"><h2>共享内存与 Bank Conflict</h2>
+      <p>共享内存由同一线程块中的线程共同使用，不同线程块拥有彼此隔离的共享内存区域。常见硬件将共享内存划分为多个 bank；在典型的 32-bank、32 位访问场景中，连续线程访问连续 word 通常可以并行完成。</p>
+      <p>若 warp 中线程 <code>t</code> 访问 <code>sdata[t]</code>，访问通常分散到不同 bank。若访问 <code>sdata[t * 32]</code>，这些地址在该模型下落入同一 bank，形成 bank conflict，访问会被拆成多次处理。实际行为仍需结合设备架构、访问宽度和广播规则判断。</p>
+      <pre><code>// 连续访问：通常可分散到不同 bank
+value = sdata[threadIdx.x];
+
+// 在典型 32-bank 模型下可能产生 bank conflict
+value = sdata[threadIdx.x * 32];</code></pre>
+    </section>
+    <section class="detail-section"><h2>线程块内同步</h2>
+      <p><code>__syncthreads()</code> 是线程块级屏障：同一线程块中参与该屏障的线程都到达后，才能继续执行后续代码。常见用法是让线程协作加载共享内存数据，再同步一次，确保数据准备好后才开始计算。</p>
+      <p>屏障不能只被线程块中的部分线程执行。若把它放进条件分支，必须保证同一线程块中所有相关线程以一致方式到达屏障，否则程序行为不正确。</p>
+    </section>
+    <p class="detail-eyebrow">持续整理中 · 后续按主题逐篇补充</p>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><p>© <span id="year">2026</span> Wang Qibo</p><nav aria-label="页脚导航"><a href="https://github.com/godjupit" target="_blank" rel="noopener noreferrer">GitHub</a><a href="#top">回到顶部 ↑</a></nav></div></footer>
+</body>
+</html>

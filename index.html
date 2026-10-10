@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Wang Qibo 的个人技术主页，记录系统与基础设施、高性能计算、操作系统、LLM 推理与 Agent Runtime 的项目和学习。">
+  <meta name="description" content="Wang Qibo 的个人技术主页，记录 CUDA、高性能计算、操作系统与 LLM 推理学习笔记。">
   <meta name="author" content="Wang Qibo">
   <meta property="og:title" content="Wang Qibo · 个人技术主页">
   <meta property="og:description" content="从系统底层出发，探索更高效的计算。">
@@ -14,8 +14,8 @@
   <title>Wang Qibo · 个人技术主页</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=(t==="light"||t==="dark")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch{document.documentElement.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}</script>
-  <link rel="stylesheet" href="assets/styles.css?v=20261010-cn">
-  <script src="assets/main.js?v=20261010-cn" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261010-notes">
+  <script src="assets/main.js?v=20261010-notes" defer></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main">跳转到正文</a>
@@ -23,7 +23,7 @@
     <div class="container header-inner">
       <a class="site-name" href="#top">Wang Qibo</a>
       <nav aria-label="主导航">
-        <a href="#projects">项目</a>
+        <a href="#notes">笔记</a>
         <a href="#about">关于</a>
         <a class="nav-contact" href="#contact">联系</a>
         <button class="theme-toggle" type="button" aria-label="切换至深色模式" title="切换明暗主题">
@@ -40,33 +40,18 @@
       <h1 id="hero-title">从系统底层出发，<br>探索更高效的计算。</h1>
       <p class="hero-description">你好，我是 Wang Qibo。关注系统与基础设施、高性能计算、操作系统，以及大语言模型推理与服务。</p>
       <div class="hero-actions">
-        <a class="button button-primary" href="#projects">查看项目 <span aria-hidden="true">→</span></a>
+        <a class="button button-primary" href="#notes">阅读笔记 <span aria-hidden="true">→</span></a>
         <a class="button button-secondary" href="#contact">联系我</a>
       </div>
     </section>
 
-    <section id="projects" class="section" aria-labelledby="projects-title">
-      <div class="section-heading"><h2 id="projects-title">项目与实践</h2><span>(04)</span></div>
+    <section id="notes" class="section" aria-labelledby="notes-title">
+      <div class="section-heading"><h2 id="notes-title">学习笔记</h2><span>(01)</span></div>
       <div class="project-list">
-        <a class="project-row" href="projects/llm.html">
+        <a class="project-row" href="notes/cuda-memory.html">
           <span class="project-number">01</span>
-          <span class="project-copy"><span class="project-title">Mini LLM 推理引擎</span><span class="project-description">围绕 KV Cache、请求调度与推理执行，理解模型背后的系统设计。</span></span>
-          <span class="project-meta">LLM · KV Cache</span><span class="project-arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="project-row" href="projects/cuda.html">
-          <span class="project-number">02</span>
-          <span class="project-copy"><span class="project-title">CUDA / 高性能计算</span><span class="project-description">从 GPU 并行计算到 OpenMP 实验，探索访存、负载均衡与性能优化。</span></span>
-          <span class="project-meta">CUDA · OpenMP</span><span class="project-arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="project-row" href="projects/agent.html">
-          <span class="project-number">03</span>
-          <span class="project-copy"><span class="project-title">Agent Runtime</span><span class="project-description">探索工具调用、MCP 与执行编排，理解 Agent 系统的运行方式。</span></span>
-          <span class="project-meta">Agent · MCP</span><span class="project-arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="project-row" href="projects/xv6.html">
-          <span class="project-number">04</span>
-          <span class="project-copy"><span class="project-title">xv6 操作系统实验</span><span class="project-description">通过内核实验与调试，学习进程、内存和操作系统的基本机制。</span></span>
-          <span class="project-meta">OS · xv6</span><span class="project-arrow" aria-hidden="true">→</span>
+          <span class="project-copy"><span class="project-title">CUDA 线程组织与内存访问</span><span class="project-description">整理 Warp 调度、延迟隐藏、全局内存合并访问、共享内存 bank conflict 与同步。</span></span>
+          <span class="project-meta">CUDA · GPU</span><span class="project-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </section>
@@ -74,8 +59,8 @@
     <section id="about" class="section" aria-labelledby="about-title">
       <div class="section-heading"><h2 id="about-title">关于我</h2></div>
       <div class="prose">
-        <p>我对计算机系统如何工作、性能瓶颈在哪里，以及基础设施怎样支撑上层应用感兴趣。我的项目与学习围绕系统、高性能计算、操作系统和 LLM 推理展开。</p>
-        <p>我喜欢从原理出发，写出可以运行的实现，再通过测量与调试理解它的行为。这个主页记录我的项目与学习过程，也希望成为技术交流的入口。</p>
+        <p>我对计算机系统如何工作、性能瓶颈在哪里，以及基础设施怎样支撑上层应用感兴趣。我的学习围绕系统、高性能计算、操作系统和 LLM 推理展开。</p>
+        <p>我喜欢从原理出发，写出可以运行的实现，再通过测量与调试理解它的行为。这个主页记录我的学习笔记，也希望成为技术交流的入口。</p>
       </div>
       <a class="inline-link" href="https://github.com/godjupit" target="_blank" rel="noopener noreferrer">在 GitHub 查看我的主页 <span aria-hidden="true">↗</span></a>
     </section>
