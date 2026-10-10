@@ -1,115 +1,106 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f7f8f5">
-  <meta name="description" content="Wang Qibo's portfolio: systems, high-performance computing, operating systems, and LLM inference." />
-  <title>Wang Qibo — Systems & Infrastructure</title>
+  <meta name="description" content="Wang Qibo 的个人技术主页，记录系统与基础设施、高性能计算、操作系统、LLM 推理与 Agent Runtime 的项目和学习。">
+  <meta name="author" content="Wang Qibo">
+  <meta property="og:title" content="Wang Qibo · 个人技术主页">
+  <meta property="og:description" content="从系统底层出发，探索更高效的计算。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://godjupit.github.io/">
+  <link rel="canonical" href="https://godjupit.github.io/">
+  <title>Wang Qibo · 个人技术主页</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css">
-  <script src="assets/main.js" defer></script>
+  <script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=(t==="light"||t==="dark")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch{document.documentElement.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}</script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261010-cn">
+  <script src="assets/main.js?v=20261010-cn" defer></script>
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
+<body id="top">
+  <a class="skip-link" href="#main">跳转到正文</a>
   <header class="site-header">
-    <a class="wordmark" href="#top" aria-label="Wang Qibo, home">WQ<span>.</span></a>
-    <nav aria-label="Main navigation">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Focus</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Toggle color theme">
-      <span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Theme</span>
-    </button>
+    <div class="container header-inner">
+      <a class="site-name" href="#top">Wang Qibo</a>
+      <nav aria-label="主导航">
+        <a href="#projects">项目</a>
+        <a href="#about">关于</a>
+        <a class="nav-contact" href="#contact">联系</a>
+        <button class="theme-toggle" type="button" aria-label="切换至深色模式" title="切换明暗主题">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+      </nav>
+    </div>
   </header>
 
-  <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="status-dot"></span> Developer · Systems & Infrastructure</p>
-        <h1 id="hero-title">Wang Qibo</h1>
-        <p class="hero-lede">I build and study software close to the machine — from parallel workloads and operating systems to the infrastructure behind language model inference.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#projects">Explore projects <span aria-hidden="true">↘</span></a>
-          <a class="text-link" href="https://github.com/godjupit" target="_blank" rel="noreferrer">GitHub profile <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-      <aside class="hero-note" aria-label="Areas of interest">
-        <span class="note-index">01 / 04</span>
-        <p>Curious about how systems work, where performance goes, and how thoughtful engineering makes tools more capable.</p>
-        <div class="note-rule"></div>
-        <span class="note-caption">CURRENT INTERESTS</span>
-        <span class="note-topics">HPC · OS · LLM serving</span>
-      </aside>
-      <div class="hero-foot"><span>Independent projects &amp; learning</span><span>Systems · HPC · LLM serving</span></div>
-    </section>
-
-    <section class="content-section about-section" id="about" aria-labelledby="about-title">
-      <div class="section-heading"><span class="section-number">01</span><h2 id="about-title">About</h2></div>
-      <div class="about-body">
-        <p class="section-intro">I’m interested in the software layers that make computing systems fast, reliable, and useful.</p>
-        <div class="about-detail">
-          <p>My projects and learning span systems and infrastructure, high-performance computing, operating systems, and LLM inference. I like to understand a problem from its fundamentals, build a working implementation, and use measurement to guide the next iteration.</p>
-          <p>This site is a concise record of what I’m exploring. Project descriptions reflect areas of work; links will be added as repositories are ready to share.</p>
-        </div>
+  <main id="main" class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>系统与基础设施 · 在实践中学习</p>
+      <h1 id="hero-title">从系统底层出发，<br>探索更高效的计算。</h1>
+      <p class="hero-description">你好，我是 Wang Qibo。关注系统与基础设施、高性能计算、操作系统，以及大语言模型推理与服务。</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#projects">查看项目 <span aria-hidden="true">→</span></a>
+        <a class="button button-secondary" href="#contact">联系我</a>
       </div>
     </section>
 
-    <section class="content-section projects-section" id="projects" aria-labelledby="projects-title">
-      <div class="section-heading"><span class="section-number">02</span><h2 id="projects-title">Selected projects</h2><span class="section-aside">A work in progress</span></div>
-      <div class="project-grid">
-        <article class="project-card project-featured" data-project="llm">
-          <div class="project-topline"><span class="project-number">01</span><span class="project-state">Exploration</span></div>
-          <h3>Mini LLM Inference Engine</h3>
-          <p>A compact inference runtime exploring KV cache management, request scheduling, and the path from model inputs to generated tokens.</p>
-          <ul class="tag-list" aria-label="Topics"><li>LLM inference</li><li>KV cache</li><li>Scheduling</li></ul>
-          <a class="project-link" hidden><span>View repository</span><span aria-hidden="true">↗</span></a>
-        </article>
-        <article class="project-card" data-project="cuda">
-          <div class="project-topline"><span class="project-number">02</span><span class="project-state">Experiments</span></div>
-          <h3>CUDA &amp; High-Performance Computing</h3>
-          <p>GPU parallel computing experiments focused on execution, memory behavior, workload balance, and performance analysis.</p>
-          <ul class="tag-list" aria-label="Topics"><li>CUDA</li><li>Parallel computing</li><li>Profiling</li></ul>
-          <a class="project-link" hidden><span>View repository</span><span aria-hidden="true">↗</span></a>
-        </article>
-        <article class="project-card" data-project="agent">
-          <div class="project-topline"><span class="project-number">03</span><span class="project-state">Exploration</span></div>
-          <h3>Agent Runtime</h3>
-          <p>Exploring the runtime pieces behind agent systems, including tool invocation, MCP integration, and orchestration.</p>
-          <ul class="tag-list" aria-label="Topics"><li>Agents</li><li>Tool use</li><li>MCP</li></ul>
-          <a class="project-link" hidden><span>View repository</span><span aria-hidden="true">↗</span></a>
-        </article>
-        <article class="project-card" data-project="xv6">
-          <div class="project-topline"><span class="project-number">04</span><span class="project-state">Course labs</span></div>
-          <h3>xv6 Operating Systems Labs</h3>
-          <p>Hands-on operating systems exercises for learning kernel concepts through implementation and debugging.</p>
-          <ul class="tag-list" aria-label="Topics"><li>Operating systems</li><li>Kernel</li><li>xv6</li></ul>
-          <a class="project-link" hidden><span>View repository</span><span aria-hidden="true">↗</span></a>
-        </article>
-      </div>
-      <p class="project-footnote">Repository links can be added in <code>assets/main.js</code>.</p>
-    </section>
-
-    <section class="content-section skills-section" id="skills" aria-labelledby="skills-title">
-      <div class="section-heading"><span class="section-number">03</span><h2 id="skills-title">Areas of focus</h2></div>
-      <div class="focus-list">
-        <div class="focus-item"><span class="focus-index">A</span><h3>Systems &amp; Infrastructure</h3><p>Understanding the components and trade-offs that shape dependable software.</p></div>
-        <div class="focus-item"><span class="focus-index">B</span><h3>High-Performance Computing</h3><p>Parallel algorithms, CUDA, workload balance, and performance measurement.</p></div>
-        <div class="focus-item"><span class="focus-index">C</span><h3>Operating Systems</h3><p>Kernel fundamentals, process and memory abstractions, and hands-on labs.</p></div>
-        <div class="focus-item"><span class="focus-index">D</span><h3>LLM Inference &amp; Serving</h3><p>Inference execution, KV caches, scheduling, and runtime design.</p></div>
-        <div class="focus-item"><span class="focus-index">E</span><h3>Open Source Software</h3><p>Learning in public and building practical tools that are easy to inspect and improve.</p></div>
+    <section id="projects" class="section" aria-labelledby="projects-title">
+      <div class="section-heading"><h2 id="projects-title">项目与实践</h2><span>(04)</span></div>
+      <div class="project-list">
+        <a class="project-row" href="projects/llm.html">
+          <span class="project-number">01</span>
+          <span class="project-copy"><span class="project-title">Mini LLM 推理引擎</span><span class="project-description">围绕 KV Cache、请求调度与推理执行，理解模型背后的系统设计。</span></span>
+          <span class="project-meta">LLM · KV Cache</span><span class="project-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="project-row" href="projects/cuda.html">
+          <span class="project-number">02</span>
+          <span class="project-copy"><span class="project-title">CUDA / 高性能计算</span><span class="project-description">从 GPU 并行计算到 OpenMP 实验，探索访存、负载均衡与性能优化。</span></span>
+          <span class="project-meta">CUDA · OpenMP</span><span class="project-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="project-row" href="projects/agent.html">
+          <span class="project-number">03</span>
+          <span class="project-copy"><span class="project-title">Agent Runtime</span><span class="project-description">探索工具调用、MCP 与执行编排，理解 Agent 系统的运行方式。</span></span>
+          <span class="project-meta">Agent · MCP</span><span class="project-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="project-row" href="projects/xv6.html">
+          <span class="project-number">04</span>
+          <span class="project-copy"><span class="project-title">xv6 操作系统实验</span><span class="project-description">通过内核实验与调试，学习进程、内存和操作系统的基本机制。</span></span>
+          <span class="project-meta">OS · xv6</span><span class="project-arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </section>
 
-    <section class="contact-section" id="contact" aria-labelledby="contact-title">
-      <div class="section-heading"><span class="section-number">04</span><h2 id="contact-title">Contact</h2></div>
-      <div class="contact-content"><p class="section-intro">Have a systems question or an interesting project in mind?</p><a class="contact-link" href="https://github.com/godjupit" target="_blank" rel="noreferrer">Find me on GitHub <span aria-hidden="true">↗</span></a></div>
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="section-heading"><h2 id="about-title">关于我</h2></div>
+      <div class="prose">
+        <p>我对计算机系统如何工作、性能瓶颈在哪里，以及基础设施怎样支撑上层应用感兴趣。我的项目与学习围绕系统、高性能计算、操作系统和 LLM 推理展开。</p>
+        <p>我喜欢从原理出发，写出可以运行的实现，再通过测量与调试理解它的行为。这个主页记录我的项目与学习过程，也希望成为技术交流的入口。</p>
+      </div>
+      <a class="inline-link" href="https://github.com/godjupit" target="_blank" rel="noopener noreferrer">在 GitHub 查看我的主页 <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <section id="skills" class="section" aria-labelledby="skills-title">
+      <div class="section-heading"><h2 id="skills-title">学习与技术方向</h2></div>
+      <dl class="focus-list">
+        <div><dt>系统与基础设施</dt><dd>关注系统组成、运行机制与工程取舍。</dd></div>
+        <div><dt>高性能计算 / CUDA</dt><dd>并行算法、GPU 计算、访存与性能分析。</dd></div>
+        <div><dt>操作系统</dt><dd>通过内核实验理解进程与内存等基础机制。</dd></div>
+        <div><dt>LLM 推理与服务</dt><dd>KV Cache、请求调度与推理运行时。</dd></div>
+        <div><dt>开源软件</dt><dd>阅读实现、记录学习，构建可理解的工具。</dd></div>
+      </dl>
+    </section>
+
+    <section id="contact" class="section contact-section" aria-labelledby="contact-title">
+      <div class="section-heading"><h2 id="contact-title">联系与交流</h2></div>
+      <p class="contact-title">一起聊聊值得探索的技术问题。</p>
+      <p class="contact-description">欢迎交流系统、并行计算、推理基础设施与开源项目。</p>
+      <a class="inline-link contact-link" href="https://github.com/godjupit" target="_blank" rel="noopener noreferrer">github.com/godjupit <span aria-hidden="true">↗</span></a>
     </section>
   </main>
 
-  <footer class="site-footer"><a class="wordmark" href="#top">WQ<span>.</span></a><span>Built with care · <span id="year"></span></span><a href="#top">Back to top ↑</a></footer>
+  <footer class="site-footer">
+    <div class="container footer-inner"><p>© <span id="year">2026</span> Wang Qibo</p><nav aria-label="页脚导航"><a href="https://github.com/godjupit" target="_blank" rel="noopener noreferrer">GitHub</a><a href="#top">回到顶部 ↑</a></nav></div>
+  </footer>
 </body>
 </html>

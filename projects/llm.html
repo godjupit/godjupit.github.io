@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="围绕 KV Cache、请求调度与推理执行，学习大语言模型推理系统的基本组成。">
+  <meta name="author" content="Wang Qibo">
+  <meta property="og:title" content="Mini LLM 推理引擎 · Wang Qibo">
+  <meta property="og:description" content="围绕 KV Cache、请求调度与推理执行，学习大语言模型推理系统的基本组成。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://godjupit.github.io/projects/llm.html">
+  <link rel="canonical" href="https://godjupit.github.io/projects/llm.html">
+  <title>Mini LLM 推理引擎 · Wang Qibo</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script>try{const t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.theme=(t==="light"||t==="dark")?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch{document.documentElement.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}</script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261010-cn">
+  <script src="../assets/main.js?v=20261010-cn" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳转到正文</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-name" href="../index.html">Wang Qibo</a>
+      <nav aria-label="主导航">
+        <a href="../index.html#projects">项目</a>
+        <a href="../index.html#about">关于</a>
+        <a class="nav-contact" href="../index.html#contact">联系</a>
+        <button class="theme-toggle" type="button" aria-label="切换至深色模式" title="切换明暗主题">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="container project-detail" data-project="llm">
+    <a class="inline-link back-link" href="../index.html#projects">← 返回项目列表</a>
+    <p class="detail-eyebrow">项目与学习</p>
+    <h1 class="detail-title">Mini LLM 推理引擎</h1>
+    <p class="detail-summary">围绕 KV Cache、请求调度与推理执行，学习大语言模型推理系统的基本组成。</p>
+    <div class="detail-tags" aria-label="项目主题"><span>LLM 推理</span><span>KV Cache</span><span>调度器</span></div>
+    <a class="inline-link repository-link" hidden>查看源码 ↗</a>
+    <section class="detail-section" aria-labelledby="overview-title">
+      <h2 id="overview-title">项目方向</h2>
+      <p>从输入请求到输出 token，推理引擎需要协调模型执行、缓存与调度。这个方向关注模型背后的运行时，理解各个组件如何配合，以及它们对内存与执行效率的影响。</p>
+    </section>
+    <section class="detail-section" aria-labelledby="focus-title">
+      <h2 id="focus-title">关注的问题</h2>
+      <ul><li>KV Cache：理解历史 token 的键值缓存、生命周期与内存管理。</li><li>请求调度：理解请求进入、执行与完成的过程，以及调度策略的取舍。</li><li>推理执行：梳理从模型输入到生成 token 的执行路径。</li></ul>
+    </section>
+    <a class="inline-link" href="../index.html#contact">交流这个方向 →</a>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner"><p>© <span id="year">2026</span> Wang Qibo</p><nav aria-label="页脚导航"><a href="https://github.com/godjupit" target="_blank" rel="noopener noreferrer">GitHub</a><a href="#top">回到顶部 ↑</a></nav></div>
+  </footer>
+</body>
+</html>
