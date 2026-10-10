@@ -1,21 +1,3 @@
-// 填写真实公开仓库地址后，对应的项目详情页会显示“查看源码”。
-const projectLinks = {
-  llm: "",
-  cuda: "",
-  agent: "",
-  xv6: "",
-};
-
-for (const [project, url] of Object.entries(projectLinks)) {
-  if (!url) continue;
-  for (const link of document.querySelectorAll(`[data-project="${project}"] .repository-link`)) {
-    link.href = url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.hidden = false;
-  }
-}
-
 const root = document.documentElement;
 const themeButton = document.querySelector(".theme-toggle");
 function updateThemeButton() {
@@ -38,4 +20,3 @@ systemTheme.addEventListener("change", (event) => {
     updateThemeButton();
   }
 });
-document.querySelector("#year").textContent = new Date().getFullYear();
