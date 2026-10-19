@@ -114,14 +114,7 @@
 <p>先想：第 5 题通过客户编号关联内外层，<br>这一题应该通过哪个字段关联？</p>
 </section>
 <section class="detail-section"><h3>7. 客户数量超过平均水平的市场区域</h3>
-<p>表：customer</p>
-<p>查询哪些市场区域的客户数量，<br>超过所有市场区域的平均客户数量。</p>
-<p>显示：<br>  市场区域 c_mktsegment<br>  客户数量，命名为 customer_count</p>
-<p>按客户数量降序排列。</p>
-<p>涉及字段：<br>  c_custkey       客户编号<br>  c_mktsegment    市场区域</p>
-<p>这里的“平均客户数量”指：<br>  客户总数 ÷ 不同市场区域的数量</p>
-<p>例如三个市场区域分别有 10、20、60 个客户，<br>平均为 30，只应返回有 60 个客户的区域。</p>
-<p>可以尝试组合 GROUP BY、HAVING 和子查询。<br>注意：PostgreSQL 两个整数相除会截断小数，<br>计算平均数量时可以让分子乘以 1.0。</p>
+<p>在 customer 表中，哪些市场区域的客户数量超过所有市场区域的平均客户数量，结果显示市场区域（c_mktsegment）、客户数量（命名为 customer_count），并按客户数量降序排列。</p>
 </section>
   </main>
 
