@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="基于 PostgreSQL TPC-H 数据库的 21 道基础查询练习，涵盖筛选、分组、连接与子查询。">
+  <meta name="description" content="基于 PostgreSQL TPC-H 数据库的 27 道基础查询练习，涵盖筛选、分组、连接与子查询。">
   <meta name="author" content="Godjupit">
   <meta property="og:title" content="SQL 基础练习（第一组） · Godjupit">
-  <meta property="og:description" content="基于 PostgreSQL TPC-H 数据库的 21 道基础查询练习，涵盖筛选、分组、连接与子查询。">
+  <meta property="og:description" content="基于 PostgreSQL TPC-H 数据库的 27 道基础查询练习，涵盖筛选、分组、连接与子查询。">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://godjupit.github.io/notes/sql-practice.html">
   <link rel="canonical" href="https://godjupit.github.io/notes/sql-practice.html">
@@ -29,7 +29,7 @@
     <a class="inline-link back-link" href="../index.html#articles">← 返回文章列表</a>
     <p class="detail-eyebrow">PostgreSQL · SQL 练习</p>
     <h1 class="detail-title">SQL 基础练习（第一组）</h1>
-    <p class="detail-summary">21 道练习，涵盖基础查询、子查询、左连接和综合查询，不附答案。</p>
+    <p class="detail-summary">27 道练习，涵盖基础查询、子查询、左连接和综合查询，不附答案。</p>
     <div class="detail-tags" aria-label="文章主题"><span>SQL</span><span>TPC-H</span><span>JOIN</span><span>子查询</span></div>
 <p>根据 <code>sql_example.md</code> 的范围，使用 PostgreSQL 的 TPC-H 数据库完成下面 10 道查询题。本组只列题目，不附答案。</p>
 <p>说明：题干在各项要求旁标注了对应的数据库字段名；“数量”“平均值”等统计结果需要通过查询计算，不是原表中已有的字段。</p>
@@ -125,6 +125,12 @@
 <h3>1. 1996 年 7 月的销售冠军</h3>
 <p>查询 1996 年 7 月的销售冠军，即该月销售额最高的供应商。以 lineitem 表的发货日期（l_shipdate）确定月份，销售额为扩展价格（l_extendedprice）乘以（1 减折扣 l_discount）的合计。结果显示销售冠军 ID（l_suppkey），以及该供应商在 1996 年 7 月的销售额（命名为 sales_amount）；如有并列冠军，全部显示。</p>
 </section>
+<section class="detail-section"><h3>2. 高于本国平均年度消费额的客户</h3><p>查询 1995 年消费总额高于本国客户平均年度消费额的客户，使用 customer 和 orders，以订单日期（o_orderdate）确定年份，消费总额为订单总金额（o_totalprice）的合计。计算本国平均值时，应包含该国所有客户，没有在 1995 年下单的客户按 0 计算。结果显示客户编号（c_custkey）、名称（c_name）、国家编号（c_nationkey）和年度消费总额（year_amount），按年度消费总额降序排列。客户与订单通过 c_custkey、o_custkey 关联。</p></section>
+<section class="detail-section"><h3>3. 七月活跃、八月沉默的客户</h3><p>查询 1996 年 7 月至少下过两笔订单、但同年 8 月没有下过任何订单的客户，使用 customer 和 orders，以订单日期（o_orderdate）确定月份。结果显示客户编号（c_custkey）、名称（c_name）、7 月订单数量（july_count）和 7 月订单总金额合计（july_amount），按 7 月订单总金额合计降序排列。客户与订单通过 c_custkey、o_custkey 关联。</p></section>
+<section class="detail-section"><h3>4. 每个国家的销售冠军</h3><p>查询 1996 年 7 月每个国家销售额最高的供应商，使用 nation、supplier 和 lineitem，以发货日期（l_shipdate）确定月份，按供应商所属国家分组比较，销售额为 l_extendedprice * (1 - l_discount) 的合计。结果显示国家名称（n_name）、供应商编号（s_suppkey）、名称（s_name）和当月销售额（sales_amount）；同一国家如有并列冠军，全部显示，当月没有销售记录的国家不显示。国家与供应商通过 n_nationkey、s_nationkey 关联，供应商与明细通过 s_suppkey、l_suppkey 关联。</p></section>
+<section class="detail-section"><h3>5. 买齐三个品牌的客户</h3><p>查询在 1995 年分别购买过 Brand#11、Brand#12、Brand#13 三个品牌商品的客户，使用 customer、orders、lineitem 和 part，以订单日期（o_orderdate）确定年份，商品品牌字段为 p_brand；允许客户同时购买其他品牌。结果显示客户编号（c_custkey）、名称（c_name），以及该客户在 1995 年购买这三个品牌所涉及的不重复订单数量（order_count），同一订单即使包含多条明细，也只能计数一次，按订单数量降序排列。关联字段依次为 c_custkey 与 o_custkey、o_orderkey 与 l_orderkey、l_partkey 与 p_partkey。</p></section>
+<section class="detail-section"><h3>6. 每条明细都满足条件的订单</h3><p>查询 1995 年下单、至少有一条明细，且每条明细均满足以下两个条件的订单：折扣（l_discount）大于 0，供应商与下单客户属于同一个国家。使用 orders、customer、lineitem 和 supplier，以 o_orderdate 确定年份。结果显示订单编号（o_orderkey）、客户编号（o_custkey）和订单折后金额（actual_amount），金额为该订单全部明细的l_extendedprice * (1 - l_discount) 的合计，按金额降序排列。关联字段为 o_custkey 与 c_custkey、o_orderkey 与 l_orderkey、l_suppkey 与 s_suppkey；客户国家为 c_nationkey，供应商国家为 s_nationkey。</p></section>
+<section class="detail-section"><h3>7. 每种商品都有更便宜竞争者的供应商</h3><p>查询至少供应一种商品，并且其供应的每一种商品都存在更便宜竞争者的供应商，使用 supplier 和 partsupp。“更便宜竞争者”指供应同一商品、供应成本更低的其他供应商，不同商品的竞争者可以不同，价格相同不算更便宜；本题不考虑库存数量。结果显示供应商编号（s_suppkey）、名称（s_name）和供应的不同商品数量（part_count），按商品数量降序排列。供应商与供货记录通过 s_suppkey、ps_suppkey 关联，商品编号为 ps_partkey，供应成本为 ps_supplycost。</p></section>
   </main>
 
 </body>
