@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="基于 PostgreSQL TPC-H 数据库的 10 道基础查询练习，涵盖筛选、分组、连接与子查询。">
+  <meta name="description" content="基于 PostgreSQL TPC-H 数据库的 16 道基础查询练习，涵盖筛选、分组、连接与子查询。">
   <meta name="author" content="Godjupit">
   <meta property="og:title" content="SQL 基础练习（第一组） · Godjupit">
-  <meta property="og:description" content="基于 PostgreSQL TPC-H 数据库的 10 道基础查询练习，涵盖筛选、分组、连接与子查询。">
+  <meta property="og:description" content="基于 PostgreSQL TPC-H 数据库的 16 道基础查询练习，涵盖筛选、分组、连接与子查询。">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://godjupit.github.io/notes/sql-practice.html">
   <link rel="canonical" href="https://godjupit.github.io/notes/sql-practice.html">
@@ -29,7 +29,7 @@
     <a class="inline-link back-link" href="../index.html#articles">← 返回文章列表</a>
     <p class="detail-eyebrow">PostgreSQL · SQL 练习</p>
     <h1 class="detail-title">SQL 基础练习（第一组）</h1>
-    <p class="detail-summary">先练习 10 道查询题，范围沿用例题，不附答案。</p>
+    <p class="detail-summary">10 道基础查询题，加上 6 道子查询专项练习，不附答案。</p>
     <div class="detail-tags" aria-label="文章主题"><span>SQL</span><span>TPC-H</span><span>JOIN</span><span>子查询</span></div>
 <p>根据 <code>sql_example.md</code> 的范围，使用 PostgreSQL 的 TPC-H 数据库完成下面 10 道查询题。本组只列题目，不附答案。</p>
 <p>说明：题干在各项要求旁标注了对应的数据库字段名；“数量”“平均值”等统计结果需要通过查询计算，不是原表中已有的字段。</p>
@@ -71,6 +71,47 @@
 </section>
 <section class="detail-section"><h2>10. 相关子查询</h2>
 <p>在 <code>orders</code> 表中查询订单总金额 <code>o_totalprice</code> 高于该客户自身平均订单金额（对相同客户编号 <code>o_custkey</code> 的所有订单的 <code>o_totalprice</code> 求平均值）的订单。显示订单编号 <code>o_orderkey</code>、客户编号 <code>o_custkey</code> 和订单总金额 <code>o_totalprice</code>，按客户编号 <code>o_custkey</code> 升序、订单总金额 <code>o_totalprice</code> 降序排列。</p>
+</section>
+<section class="detail-section"><h2>第二组：子查询与相关子查询（6 道）</h2></section>
+<p>每题写之前，先想两件事：<br>外层逐行检查什么？内层需要计算或查找什么？</p>
+<section class="detail-section"><h3>1. 高于所有订单平均金额的订单</h3>
+<p>表：orders</p>
+<p>查询订单总金额 o_totalprice 高于整张订单表平均总金额的订单。</p>
+<p>显示：<br>  订单编号 o_orderkey<br>  客户编号 o_custkey<br>  订单总金额 o_totalprice</p>
+<p>先想：检查不同订单时，内层计算的平均值需要变化吗？</p>
+</section>
+<section class="detail-section"><h3>2. 属于中国的客户</h3>
+<p>表：customer、nation</p>
+<p>使用子查询，查询国家名称 n_name 为 &#x27;CHINA&#x27; 的客户。</p>
+<p>相关字段：<br>  客户所属国家：customer.c_nationkey<br>  国家编号：nation.n_nationkey</p>
+<p>显示客户编号 c_custkey、客户名称 c_name。</p>
+<p>先想：能不能先在内层找到中国的国家编号，<br>再让外层筛选客户？</p>
+</section>
+<section class="detail-section"><h3>3. 至少有一笔大额订单的客户</h3>
+<p>表：customer、orders</p>
+<p>查询至少有一笔订单总金额 o_totalprice 大于 200000 的客户，<br>每个客户只出现一次。</p>
+<p>相关字段：<br>  客户编号：customer.c_custkey<br>  订单所属客户：orders.o_custkey</p>
+<p>显示客户编号 c_custkey、客户名称 c_name。<br>尝试使用 EXISTS。</p>
+<p>先想：内层既要检查订单金额，还需要保证这笔订单属于谁？</p>
+</section>
+<section class="detail-section"><h3>4. 从未下过大额订单的客户</h3>
+<p>表和显示字段与第 3 题相同。</p>
+<p>查询不存在任何一笔总金额大于 200000 的订单的客户。<br>没有下过订单的客户也要包含在结果中。</p>
+<p>尝试使用 NOT EXISTS。</p>
+<p>注意：“没有大额订单”与“至少有一笔小额订单”是不同的条件。</p>
+</section>
+<section class="detail-section"><h3>5. 高于自己平均订单金额的订单</h3>
+<p>表：orders</p>
+<p>查询订单总金额 o_totalprice<br>高于该订单所属客户的平均订单金额的订单。</p>
+<p>显示：<br>  订单编号 o_orderkey<br>  客户编号 o_custkey<br>  订单总金额 o_totalprice</p>
+<p>按客户编号升序、订单总金额降序排列。</p>
+<p>对照第 1 题想：外层换成另一个客户的订单时，<br>内层平均值应该怎样变化？</p>
+</section>
+<section class="detail-section"><h3>6. 高于本国平均余额的客户</h3>
+<p>表：customer</p>
+<p>查询账户余额 c_acctbal<br>高于与自己属于同一个国家的所有客户平均余额的客户。</p>
+<p>显示：<br>  客户编号 c_custkey<br>  客户名称 c_name<br>  国家编号 c_nationkey<br>  账户余额 c_acctbal</p>
+<p>先想：第 5 题通过客户编号关联内外层，<br>这一题应该通过哪个字段关联？</p>
 </section>
   </main>
 
