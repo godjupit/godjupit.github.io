@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="基于 PostgreSQL TPC-H 数据库的 16 道基础查询练习，涵盖筛选、分组、连接与子查询。">
+  <meta name="description" content="基于 PostgreSQL TPC-H 数据库的 17 道基础查询练习，涵盖筛选、分组、连接与子查询。">
   <meta name="author" content="Godjupit">
   <meta property="og:title" content="SQL 基础练习（第一组） · Godjupit">
-  <meta property="og:description" content="基于 PostgreSQL TPC-H 数据库的 16 道基础查询练习，涵盖筛选、分组、连接与子查询。">
+  <meta property="og:description" content="基于 PostgreSQL TPC-H 数据库的 17 道基础查询练习，涵盖筛选、分组、连接与子查询。">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://godjupit.github.io/notes/sql-practice.html">
   <link rel="canonical" href="https://godjupit.github.io/notes/sql-practice.html">
@@ -29,7 +29,7 @@
     <a class="inline-link back-link" href="../index.html#articles">← 返回文章列表</a>
     <p class="detail-eyebrow">PostgreSQL · SQL 练习</p>
     <h1 class="detail-title">SQL 基础练习（第一组）</h1>
-    <p class="detail-summary">10 道基础查询题，加上 6 道子查询专项练习，不附答案。</p>
+    <p class="detail-summary">10 道基础查询题，加上 7 道子查询专项练习，不附答案。</p>
     <div class="detail-tags" aria-label="文章主题"><span>SQL</span><span>TPC-H</span><span>JOIN</span><span>子查询</span></div>
 <p>根据 <code>sql_example.md</code> 的范围，使用 PostgreSQL 的 TPC-H 数据库完成下面 10 道查询题。本组只列题目，不附答案。</p>
 <p>说明：题干在各项要求旁标注了对应的数据库字段名；“数量”“平均值”等统计结果需要通过查询计算，不是原表中已有的字段。</p>
@@ -72,7 +72,7 @@
 <section class="detail-section"><h2>10. 相关子查询</h2>
 <p>在 <code>orders</code> 表中查询订单总金额 <code>o_totalprice</code> 高于该客户自身平均订单金额（对相同客户编号 <code>o_custkey</code> 的所有订单的 <code>o_totalprice</code> 求平均值）的订单。显示订单编号 <code>o_orderkey</code>、客户编号 <code>o_custkey</code> 和订单总金额 <code>o_totalprice</code>，按客户编号 <code>o_custkey</code> 升序、订单总金额 <code>o_totalprice</code> 降序排列。</p>
 </section>
-<section class="detail-section"><h2>第二组：子查询与相关子查询（6 道）</h2></section>
+<section class="detail-section"><h2>第二组：子查询与相关子查询（7 道）</h2></section>
 <p>每题写之前，先想两件事：<br>外层逐行检查什么？内层需要计算或查找什么？</p>
 <section class="detail-section"><h3>1. 高于所有订单平均金额的订单</h3>
 <p>表：orders</p>
@@ -112,6 +112,16 @@
 <p>查询账户余额 c_acctbal<br>高于与自己属于同一个国家的所有客户平均余额的客户。</p>
 <p>显示：<br>  客户编号 c_custkey<br>  客户名称 c_name<br>  国家编号 c_nationkey<br>  账户余额 c_acctbal</p>
 <p>先想：第 5 题通过客户编号关联内外层，<br>这一题应该通过哪个字段关联？</p>
+</section>
+<section class="detail-section"><h3>7. 客户数量超过平均水平的市场区域</h3>
+<p>表：customer</p>
+<p>查询哪些市场区域的客户数量，<br>超过所有市场区域的平均客户数量。</p>
+<p>显示：<br>  市场区域 c_mktsegment<br>  客户数量，命名为 customer_count</p>
+<p>按客户数量降序排列。</p>
+<p>涉及字段：<br>  c_custkey       客户编号<br>  c_mktsegment    市场区域</p>
+<p>这里的“平均客户数量”指：<br>  客户总数 ÷ 不同市场区域的数量</p>
+<p>例如三个市场区域分别有 10、20、60 个客户，<br>平均为 30，只应返回有 60 个客户的区域。</p>
+<p>可以尝试组合 GROUP BY、HAVING 和子查询。<br>注意：PostgreSQL 两个整数相除会截断小数，<br>计算平均数量时可以让分子乘以 1.0。</p>
 </section>
   </main>
 
