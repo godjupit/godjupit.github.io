@@ -32,42 +32,45 @@
     <p class="detail-summary">先练习 10 道查询题，范围沿用例题，不附答案。</p>
     <div class="detail-tags" aria-label="文章主题"><span>SQL</span><span>TPC-H</span><span>JOIN</span><span>子查询</span></div>
 <p>根据 <code>sql_example.md</code> 的范围，使用 PostgreSQL 的 TPC-H 数据库完成下面 10 道查询题。本组只列题目，不附答案。</p>
+<p>说明：题干在各项要求旁标注了对应的数据库字段名；“数量”“平均值”等统计结果需要通过查询计算，不是原表中已有的字段。</p>
 <p>注意：实际品牌值是 <code>Brand#43</code> 这种形式，PostgreSQL 的 <code>LIKE</code> 区分大小写。</p>
 <section class="detail-section"><h2>1. 模糊查询与排序</h2>
-<p>查询 <code>part</code> 表中，品牌 <code>p_brand</code> 以 <code>Brand#3</code> 开头、类型 <code>p_type</code> 包含 <code>BRASS</code> 的商品。显示商品编号、名称、品牌、类型和尺寸，按尺寸降序、商品编号升序排列。</p>
+<p>查询 <code>part</code> 表中，品牌 <code>p_brand</code> 以 <code>Brand#3</code> 开头、类型 <code>p_type</code> 包含 <code>BRASS</code> 的商品。显示商品编号 <code>p_partkey</code>、名称 <code>p_name</code>、品牌 <code>p_brand</code>、类型 <code>p_type</code> 和尺寸 <code>p_size</code>，按尺寸 <code>p_size</code> 降序、商品编号 <code>p_partkey</code> 升序排列。</p>
 </section>
 <section class="detail-section"><h2>2. 分组统计与分组筛选</h2>
-<p>查询 <code>customer</code> 表中各市场区域 <code>c_mktsegment</code> 的客户数量和平均账户余额 <code>c_acctbal</code>。只保留客户数量超过 290 的区域，按平均账户余额降序排列。</p>
+<p>查询 <code>customer</code> 表中各市场区域 <code>c_mktsegment</code> 的客户数量（统计客户编号 <code>c_custkey</code>）和平均账户余额（对 <code>c_acctbal</code> 求平均值）。显示市场区域及以上两项统计结果。只保留客户数量超过 290 的区域，按平均账户余额降序排列。</p>
 </section>
 <section class="detail-section"><h2>3. 日期筛选与前 N 条记录</h2>
-<p>查询 <code>orders</code> 表中，1995 年下单且优先级 <code>o_orderpriority</code> 包含 <code>URGENT</code> 的订单。显示订单编号、日期、优先级和总金额，按总金额降序排列，只显示前 10 条。</p>
+<p>查询 <code>orders</code> 表中，下单日期 <code>o_orderdate</code> 在 1995 年内且优先级 <code>o_orderpriority</code> 包含 <code>URGENT</code> 的订单。显示订单编号 <code>o_orderkey</code>、日期 <code>o_orderdate</code>、优先级 <code>o_orderpriority</code> 和总金额 <code>o_totalprice</code>，按总金额 <code>o_totalprice</code> 降序排列，只显示前 10 条。</p>
 </section>
 <section class="detail-section"><h2>4. 集合条件与算术表达式</h2>
-<p>查询 <code>lineitem</code> 表中，发货模式 <code>l_shipmode</code> 为 <code>AIR</code> 或 <code>TRUCK</code>、数量 <code>l_quantity</code> 大于 30 的明细。显示订单编号、商品编号、数量，以及实际金额：<code>l_extendedprice * (1 - l_discount)</code>，将实际金额命名为 <code>actual_amount</code>。</p>
+<p>查询 <code>lineitem</code> 表中，发货模式 <code>l_shipmode</code> 为 <code>AIR</code> 或 <code>TRUCK</code>、数量 <code>l_quantity</code> 大于 30 的明细。显示订单编号 <code>l_orderkey</code>、商品编号 <code>l_partkey</code>、数量 <code>l_quantity</code>，以及实际金额（扩展价格 <code>l_extendedprice</code> 乘以（1 减折扣 <code>l_discount</code>））：<code>l_extendedprice * (1 - l_discount)</code>，将实际金额命名为 <code>actual_amount</code>。</p>
 </section>
 <section class="detail-section"><h2>5. 按季度统计</h2>
-<p>统计 <code>lineitem</code> 表中，1995—1996 年每年各季度的发货明细数量，以发货日期 <code>l_shipdate</code> 为准。显示年份、季度和数量，只保留明细数量超过 1000 的组，按年份、季度升序排列。</p>
+<p>统计 <code>lineitem</code> 表中，1995—1996 年每年各季度的发货明细数量，以发货日期 <code>l_shipdate</code> 为准。显示年份（从 <code>l_shipdate</code> 提取）、季度（从 <code>l_shipdate</code> 提取）和明细数量（统计明细行数），只保留明细数量超过 1000 的组，按年份、季度升序排列。</p>
 <p>可使用例题涉及的 <code>EXTRACT</code> 提取年份和季度。</p>
 </section>
 <section class="detail-section"><h2>6. 三表连接</h2>
-<p>查询每个地区的供应商数量。连接 <code>region</code>、<code>nation</code>、<code>supplier</code>，显示地区名称 <code>r_name</code> 和供应商数量，按数量降序排列。</p>
+<p>查询每个地区的供应商数量。连接 <code>region</code>、<code>nation</code>、<code>supplier</code>，显示地区名称 <code>r_name</code> 和供应商数量，按供应商数量降序排列。</p>
+<p>连接字段：<code>region.r_regionkey</code> 与 <code>nation.n_regionkey</code> 对应，<code>nation.n_nationkey</code> 与 <code>supplier.s_nationkey</code> 对应。供应商数量通过统计供应商编号 <code>s_suppkey</code> 得到。</p>
 </section>
 <section class="detail-section"><h2>7. 连接、聚合与 HAVING</h2>
-<p>查询每个国家的客户数量和平均账户余额。连接 <code>nation</code> 和 <code>customer</code>，显示国家名称、客户数量及平均账户余额，只保留平均账户余额大于 4000 的国家。</p>
+<p>查询每个国家的客户数量和平均账户余额。连接 <code>nation</code> 和 <code>customer</code>，显示国家名称 <code>n_name</code>、客户数量（统计客户编号 <code>c_custkey</code>）及平均账户余额（对 <code>c_acctbal</code> 求平均值），只保留平均账户余额大于 4000 的国家。</p>
+<p>连接字段：<code>nation.n_nationkey</code> 与 <code>customer.c_nationkey</code> 对应。</p>
 </section>
 <section class="detail-section"><h2>8. 存在与不存在的子查询</h2>
 <p>分别编写两条 SQL：</p>
 <ol>
-<li>查询至少下过一笔订单的客户，显示客户编号和名称，每个客户只出现一次。</li>
-<li>查询从未下过订单的客户，显示客户编号和名称。</li>
+<li>查询至少下过一笔订单的客户，显示客户编号 <code>c_custkey</code> 和名称 <code>c_name</code>，每个客户只出现一次。</li>
+<li>查询从未下过订单的客户，显示客户编号 <code>c_custkey</code> 和名称 <code>c_name</code>。</li>
 </ol>
-<p>尝试分别使用 <code>EXISTS</code> 和 <code>NOT EXISTS</code>。</p>
+<p>涉及 <code>customer</code> 和 <code>orders</code> 两张表，客户编号 <code>customer.c_custkey</code> 与订单所属客户编号 <code>orders.o_custkey</code> 对应。尝试分别使用 <code>EXISTS</code> 和 <code>NOT EXISTS</code>。</p>
 </section>
 <section class="detail-section"><h2>9. 自连接与去除重复组合</h2>
-<p>查询属于同一个国家、且市场区域不同的客户对。显示两个客户的编号、名称和共同的国家编号。要求不能将客户与自身配对，同一对客户只出现一次，例如出现 <code>(1, 2)</code> 后不能再出现 <code>(2, 1)</code>。</p>
+<p>在 <code>customer</code> 表中查询国家编号 <code>c_nationkey</code> 相同、且市场区域 <code>c_mktsegment</code> 不同的客户对。显示两个客户的编号 <code>c_custkey</code>、名称 <code>c_name</code> 和共同的国家编号 <code>c_nationkey</code>。要求不能将客户与自身配对，同一对客户只出现一次，例如出现 <code>(1, 2)</code> 后不能再出现 <code>(2, 1)</code>。</p>
 </section>
 <section class="detail-section"><h2>10. 相关子查询</h2>
-<p>查询订单总金额高于该客户自身平均订单金额的订单。显示订单编号 <code>o_orderkey</code>、客户编号 <code>o_custkey</code> 和订单总金额 <code>o_totalprice</code>，按客户编号升序、订单总金额降序排列。</p>
+<p>在 <code>orders</code> 表中查询订单总金额 <code>o_totalprice</code> 高于该客户自身平均订单金额（对相同客户编号 <code>o_custkey</code> 的所有订单的 <code>o_totalprice</code> 求平均值）的订单。显示订单编号 <code>o_orderkey</code>、客户编号 <code>o_custkey</code> 和订单总金额 <code>o_totalprice</code>，按客户编号 <code>o_custkey</code> 升序、订单总金额 <code>o_totalprice</code> 降序排列。</p>
 </section>
   </main>
 
